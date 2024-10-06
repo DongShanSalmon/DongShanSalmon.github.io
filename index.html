@@ -80,12 +80,18 @@
         /* 向右箭頭樣式 */
         .arrow-icon {
             position: fixed;
-            left: -20px; /* 位置稍微在外部 */
+            left: 0; /* 調整為在邊界內 */
             top: 50%;
             transform: translateY(-50%);
             font-size: 24px; /* 字體大小 */
             color: #2e8b57; /* 顏色 */
             pointer-events: none; /* 防止點擊 */
+            display: none; /* 默認隱藏 */
+        }
+        @media (max-width: 768px) {
+            .arrow-icon {
+                display: block; /* 在手機上顯示 */
+            }
         }
     </style>
     <script>
