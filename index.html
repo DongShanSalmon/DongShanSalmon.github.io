@@ -77,6 +77,16 @@
             height: 100%;
             z-index: 2; /* 確保在最上層 */
         }
+        /* 向右箭頭樣式 */
+        .arrow-icon {
+            position: fixed;
+            left: -20px; /* 位置稍微在外部 */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px; /* 字體大小 */
+            color: #2e8b57; /* 顏色 */
+            pointer-events: none; /* 防止點擊 */
+        }
     </style>
     <script>
         function showMessage() {
@@ -102,6 +112,7 @@
 </head>
 <body>
     <div class="hover-area"></div>
+    <div class="arrow-icon">➡️</div> <!-- 向右箭頭圖標 -->
 
     <div id="mySidebar" class="sidebar">
         <a href="#">按鈕 1</a>
