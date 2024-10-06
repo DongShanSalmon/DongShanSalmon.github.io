@@ -79,8 +79,9 @@
         }
         /* 半圓形箭頭樣式 */
         .arrow-icon {
+            display: none; /* 預設不顯示 */
             position: fixed;
-            left: 0; /* 調整為在邊界內 */
+            left: 0;
             top: 50%;
             transform: translateY(-50%);
             width: 60px;
@@ -108,16 +109,31 @@
             sidebar.style.left = show ? "0px" : "-250px"; // 顯示或隱藏
         }
 
+        function isMobile() {
+            return /Mobi|Android/i.test(navigator.userAgent); // 判斷是否為手機
+        }
+
         window.onload = function() {
             const hoverArea = document.querySelector('.hover-area');
             const sidebar = document.getElementById("mySidebar");
+            const arrowIcon = document.querySelector('.arrow-icon');
 
-            hoverArea.addEventListener('mouseenter', function() {
-                toggleSidebar(true);
-            });
+            if (isMobile()) {
+                arrowIcon.style.display = 'flex'; // 在手機上顯示箭頭
+                hoverArea.addEventListener('mouseenter', function() {
+                    toggleSidebar(true);
+                });
+            }
 
             sidebar.addEventListener('mouseleave', function() {
                 toggleSidebar(false);
+            });
+
+            // 加入關閉按鈕的功能
+            const closeButton = document.querySelector('.sidebar a:last-child'); // 取得關閉按鈕
+            closeButton.addEventListener('click', function(event) {
+                event.preventDefault(); // 防止默認行為
+                toggleSidebar(false); // 隱藏側邊菜單
             });
         };
     </script>
