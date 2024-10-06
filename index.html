@@ -6,59 +6,115 @@
     <title>我的網站</title>
     <style>
         body {
-            font-family: Arial, sans-serif; /* 使用無襯線字體 */
-            background-color: #f0f8ff; /* 背景顏色 */
-            color: #333; /* 文字顏色 */
-            margin: 0; /* 去掉預設邊距 */
-            padding: 20px; /* 添加內邊距 */
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* 防止水平滾動條 */
         }
         h1 {
-            color: #2e8b57; /* 標題顏色 */
-            text-align: center; /* 標題置中 */
+            color: #2e8b57;
+            text-align: center;
         }
         p {
-            text-align: center; /* 段落置中 */
-            font-size: 1.2em; /* 調整字體大小 */
+            text-align: center;
+            font-size: 1.2em;
         }
         .container {
-            max-width: 800px; /* 最大寬度 */
-            margin: 0 auto; /* 自動左右邊距，居中 */
-            padding: 20px; /* 內邊距 */
-            background-color: #fff; /* 白色背景 */
-            border-radius: 8px; /* 圓角 */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 陰影效果 */
-            text-align: left; /* 內容置中 */
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         .button {
-            padding: 10px 20px; /* 按鈕內邊距 */
-            font-size: 1em; /* 字體大小 */
-            margin-top: 20px; /* 上方間距 */
-            background-color: #2e8b57; /* 按鈕背景顏色 */
-            color: white; /* 按鈕文字顏色 */
-            border: none; /* 無邊框 */
-            border-radius: 5px; /* 圓角 */
-            cursor: pointer; /* 鼠標指針 */
-            text-decoration: none; /* 去掉下劃線 */
-            display: inline-block; /* 讓其顯示為行內區塊 */
+            padding: 10px 20px;
+            font-size: 1em;
+            margin-top: 20px;
+            background-color: #2e8b57;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
         .button:hover {
-            background-color: #256d44; /* 滑鼠懸停效果 */
+            background-color: #256d44;
+        }
+        /* 側邊菜單樣式 */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px; /* 初始隱藏 */
+            background-color: #fff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+            padding-top: 20px;
+            z-index: 1; /* 確保在最上層 */
+        }
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #f0f0f0;
+        }
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #2e8b57;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
         }
     </style>
     <script>
         function showMessage() {
             alert('歡迎來到我的網站！');
         }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("mySidebar");
+            if (sidebar.style.left === "0px") {
+                sidebar.style.left = "-250px"; // 隱藏
+            } else {
+                sidebar.style.left = "0px"; // 顯示
+            }
+        }
     </script>
 </head>
 <body>
+    <button class="openbtn" onclick="toggleSidebar()">☰ 打開菜單</button>
+
+    <div id="mySidebar" class="sidebar">
+        <a href="#">按鈕 1</a>
+        <a href="#">按鈕 2</a>
+        <a href="#">按鈕 3</a>
+        <a href="#">按鈕 4</a>
+        <a href="#">按鈕 5</a>
+        <a href="#" onclick="toggleSidebar()">關閉</a>
+    </div>
+
     <div class="container">
         <h1>歡迎來到我的網站！</h1>
         <p>這是我使用 GitHub Pages 創建的第一個網站。</p>
         <a href="#" class="button" onclick="showMessage()">顯示歡迎訊息</a>
         <br>
         <a href="https://example.com" class="button" target="_blank">前往示範網站</a>
-        <!-- 替換 href 的 URL 為你想要連結的網址 -->
     </div>
 </body>
 </html>
