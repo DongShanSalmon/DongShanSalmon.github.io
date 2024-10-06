@@ -69,17 +69,13 @@
         .sidebar a:hover {
             background-color: #f0f0f0;
         }
-        .openbtn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #2e8b57;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        .hover-area {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 30px; /* 可調整觸發區域的寬度 */
+            height: 100%;
+            z-index: 2; /* 確保在最上層 */
         }
     </style>
     <script>
@@ -87,18 +83,25 @@
             alert('歡迎來到我的網站！');
         }
 
-        function toggleSidebar() {
+        function toggleSidebar(show) {
             const sidebar = document.getElementById("mySidebar");
-            if (sidebar.style.left === "0px") {
-                sidebar.style.left = "-250px"; // 隱藏
-            } else {
-                sidebar.style.left = "0px"; // 顯示
-            }
+            sidebar.style.left = show ? "0px" : "-250px"; // 顯示或隱藏
         }
+
+        window.onload = function() {
+            const hoverArea = document.querySelector('.hover-area');
+            hoverArea.addEventListener('mouseenter', function() {
+                toggleSidebar(true);
+            });
+
+            hoverArea.addEventListener('mouseleave', function() {
+                toggleSidebar(false);
+            });
+        };
     </script>
 </head>
 <body>
-    <button class="openbtn" onclick="toggleSidebar()">☰ 打開菜單</button>
+    <div class="hover-area"></div>
 
     <div id="mySidebar" class="sidebar">
         <a href="#">按鈕 1</a>
@@ -106,7 +109,7 @@
         <a href="#">按鈕 3</a>
         <a href="#">按鈕 4</a>
         <a href="#">按鈕 5</a>
-        <a href="#" onclick="toggleSidebar()">關閉</a>
+        <a href="#">關閉</a>
     </div>
 
     <div class="container">
