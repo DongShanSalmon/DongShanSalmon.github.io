@@ -39,6 +39,7 @@
             border-radius: 5px; /* 圓角 */
             cursor: pointer; /* 鼠標指針 */
             text-decoration: none; /* 去掉下劃線 */
+            display: inline-block; /* 讓其顯示為行內區塊 */
         }
         .button:hover {
             background-color: #256d44; /* 滑鼠懸停效果 */
@@ -54,7 +55,7 @@
     <div class="container">
         <h1>歡迎來到我的網站！</h1>
         <p>這是我使用 GitHub Pages 創建的第一個網站。</p>
-        <button onclick="showMessage()">顯示歡迎訊息</button>
+        <a href="#" class="button" onclick="showMessage()">顯示歡迎訊息</a>
         <br>
         <a href="https://example.com" class="button" target="_blank">前往示範網站</a>
         <!-- 替換 href 的 URL 為你想要連結的網址 -->
