@@ -6,11 +6,19 @@
     <title>我的網站</title>
     <style>
         body {
-            font-family: Arial, sans-serif; /* 設置字體 */
+            font-family: Arial, sans-serif; /* 使用無襯線字體 */
             background-color: #f0f8ff; /* 背景顏色 */
             color: #333; /* 文字顏色 */
             margin: 0; /* 去掉預設邊距 */
             padding: 20px; /* 添加內邊距 */
+        }
+        h1 {
+            color: #2e8b57; /* 標題顏色 */
+            text-align: center; /* 標題置中 */
+        }
+        p {
+            text-align: center; /* 段落置中 */
+            font-size: 1.2em; /* 調整字體大小 */
         }
         .container {
             max-width: 800px; /* 最大寬度 */
@@ -21,20 +29,31 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 陰影效果 */
             text-align: center; /* 內容置中 */
         }
-        h1 {
-            color: #2e8b57; /* 標題顏色 */
-            margin-bottom: 20px; /* 標題下方的間距 */
+        button {
+            padding: 10px 20px; /* 按鈕內邊距 */
+            font-size: 1em; /* 字體大小 */
+            margin-top: 20px; /* 上方間距 */
+            background-color: #2e8b57; /* 按鈕背景顏色 */
+            color: white; /* 按鈕文字顏色 */
+            border: none; /* 無邊框 */
+            border-radius: 5px; /* 圓角 */
+            cursor: pointer; /* 鼠標指針 */
         }
-        p {
-            font-size: 1.2em; /* 調整段落字體大小 */
+        button:hover {
+            background-color: #256d44; /* 滑鼠懸停效果 */
         }
     </style>
+    <script>
+        function showMessage() {
+            alert('歡迎來到我的網站！');
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <h1>網站！</h1>
+        <h1>歡迎來到我的網站！</h1>
         <p>這是我使用 GitHub Pages 創建的第一個網站。</p>
+        <button onclick="showMessage()">點擊我</button>
     </div>
 </body>
 </html>
-v
