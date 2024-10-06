@@ -73,25 +73,30 @@
             position: fixed;
             left: 0;
             top: 0;
-            width: 30px; /* 可調整觸發區域的寬度 */
+            width: 60px; /* 擴大觸發區域的寬度 */
             height: 100%;
             z-index: 2; /* 確保在最上層 */
         }
-        /* 向右箭頭樣式 */
+        /* 半圓形箭頭樣式 */
         .arrow-icon {
             position: fixed;
             left: 0; /* 調整為在邊界內 */
             top: 50%;
             transform: translateY(-50%);
-            font-size: 24px; /* 字體大小 */
-            color: #2e8b57; /* 顏色 */
+            width: 60px;
+            height: 60px;
+            background-color: #2e8b57; /* 背景顏色 */
+            border-top-left-radius: 30px; /* 半圓形 */
+            border-bottom-left-radius: 30px; /* 半圓形 */
+            color: white; /* 箭頭顏色 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
             pointer-events: none; /* 防止點擊 */
-            display: none; /* 默認隱藏 */
         }
-        @media (max-width: 768px) {
-            .arrow-icon {
-                display: block; /* 在手機上顯示 */
-            }
+        .arrow-icon::after {
+            content: "➡️"; /* 向右箭頭 */
+            font-size: 24px; /* 字體大小 */
         }
     </style>
     <script>
@@ -106,11 +111,13 @@
 
         window.onload = function() {
             const hoverArea = document.querySelector('.hover-area');
+            const sidebar = document.getElementById("mySidebar");
+
             hoverArea.addEventListener('mouseenter', function() {
                 toggleSidebar(true);
             });
 
-            hoverArea.addEventListener('mouseleave', function() {
+            sidebar.addEventListener('mouseleave', function() {
                 toggleSidebar(false);
             });
         };
@@ -118,7 +125,7 @@
 </head>
 <body>
     <div class="hover-area"></div>
-    <div class="arrow-icon">➡️</div> <!-- 向右箭頭圖標 -->
+    <div class="arrow-icon"></div> <!-- 半圓形向右箭頭 -->
 
     <div id="mySidebar" class="sidebar">
         <a href="#">按鈕 1</a>
