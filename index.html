@@ -104,6 +104,10 @@
             sidebar.style.left = show ? "0px" : "-250px"; // 顯示或隱藏
         }
 
+        function closeSidebar() {
+            toggleSidebar(false); // 關閉側邊菜單
+        }
+
         window.onload = function() {
             const hoverArea = document.querySelector('.hover-area');
             const sidebar = document.getElementById("mySidebar");
@@ -114,6 +118,13 @@
 
             sidebar.addEventListener('mouseleave', function() {
                 toggleSidebar(false);
+            });
+
+            // 為關閉按鈕添加事件
+            const closeButton = sidebar.querySelector('a:last-child'); // 獲取最後一個按鈕（關閉按鈕）
+            closeButton.addEventListener('click', function(event) {
+                event.preventDefault(); // 防止按鈕的默認行為
+                closeSidebar(); // 關閉側邊菜單
             });
         };
     </script>
@@ -128,7 +139,7 @@
         <a href="#">按鈕 3</a>
         <a href="#">按鈕 4</a>
         <a href="#">按鈕 5</a>
-        <a href="#">關閉</a>
+        <a href="#">關閉</a> <!-- 關閉按鈕 -->
     </div>
 
     <div class="container">
