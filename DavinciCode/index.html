@@ -6,36 +6,91 @@
     <title>猜數字遊戲</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
             text-align: center;
             padding: 50px;
+            margin: 0;
+            overflow: hidden; /* 防止滾動條出現 */
+        }
+        h1 {
+            color: #00695c;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+            position: relative; /* 使容器成為定位參考 */
+            z-index: 2; /* 確保容器在彩帶上方 */
         }
         input[type="number"] {
             padding: 10px;
-            width: 50px;
-            margin: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 1px solid #00695c;
+            border-radius: 5px;
+            font-size: 16px;
         }
         button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #00695c;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #004d40;
         }
         #message {
             margin-top: 20px;
             font-size: 18px;
-            color: #333;
+            color: #d32f2f;
+        }
+        #range {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #00796b;
+        }
+        .confetti {
+            position: fixed; /* 改為固定位置 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1; /* 確保彩帶在容器下方 */
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); }
         }
     </style>
 </head>
 <body>
 
-<h1>猜數字遊戲</h1>
-<p id="range">請猜一個 1 到 100 的數字：</p>
-<input type="number" id="guess" min="1" max="100">
-<button id="submit">提交</button>
-<button id="restart" style="display:none;">重新開始</button>
-<div id="message"></div>
+<div class="confetti" id="confetti"></div>
+<div class="container">
+    <h1>猜數字遊戲</h1>
+    <p id="range">請猜一個 1 到 100 的數字：</p>
+    <input type="number" id="guess" min="1" max="100" placeholder="輸入你的猜測">
+    <button id="submit">提交</button>
+    <button id="restart" style="display:none;">重新開始</button>
+    <div id="message"></div>
+</div>
 
 <script>
     let randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -59,6 +114,7 @@
             document.getElementById('message').textContent = `恭喜你！你猜對了！你總共猜了 ${attempts} 次。`;
             document.getElementById('restart').style.display = "inline-block";
             document.getElementById('submit').disabled = true;
+            showConfetti(); // 顯示彩帶特效
         }
         
         // 更新提示範圍
@@ -75,7 +131,40 @@
         document.getElementById('submit').disabled = false;
         this.style.display = "none";
         document.getElementById('range').textContent = "請猜一個 1 到 100 的數字：";
+        hideConfetti(); // 隱藏彩帶特效
     });
+
+    function showConfetti() {
+        const confettiContainer = document.getElementById('confetti');
+        for (let i = 0; i < 200; i++) { // 增加彩帶數量
+            createConfettiPiece(confettiContainer);
+        }
+    }
+
+    function createConfettiPiece(container) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.backgroundColor = getRandomColor();
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.animationDuration = Math.random() * 2 + 3 + 's';
+        piece.style.animationDelay = Math.random() * 2 + 's';
+        container.appendChild(piece);
+
+        // 移除彩帶特效的 div
+        piece.addEventListener('animationend', function() {
+            piece.remove();
+        });
+    }
+
+    function getRandomColor() {
+        const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function hideConfetti() {
+        const confettiContainer = document.getElementById('confetti');
+        confettiContainer.innerHTML = ''; // 清空彩帶特效
+    }
 </script>
 
 </body>
