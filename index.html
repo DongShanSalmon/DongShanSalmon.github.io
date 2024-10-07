@@ -73,30 +73,25 @@
             position: fixed;
             left: 0;
             top: 0;
-            width: 60px; /* 擴大觸發區域的寬度 */
+            width: 50px; /* 縮小觸發區域的寬度 */
             height: 100%;
-            z-index: 2; /* 確保在最上層 */
+            z-index: 0; /* 調整 z-index 確保不覆蓋按鈕 */
         }
-        /* 半圓形箭頭樣式 */
+        /* 藍色箭頭樣式 */
         .arrow-icon {
             position: fixed;
-            left: 0; /* 調整為在邊界內 */
+            left: 10px; /* 調整為距離左側 10px */
             top: 50%;
             transform: translateY(-50%);
-            width: 60px;
-            height: 60px;
-            background-color: #2e8b57; /* 背景顏色 */
-            border-top-right-radius: 30px; /* 半圓形朝右 */
-            border-bottom-right-radius: 30px; /* 半圓形朝右 */
-            color: white; /* 箭頭顏色 */
+            font-size: 30px; /* 字體大小 */
+            color: #2e8b57; /* 藍色 */
             display: flex;
             align-items: center;
             justify-content: center;
             pointer-events: none; /* 防止點擊 */
         }
         .arrow-icon::after {
-            content: "➡️"; /* 向右箭頭 */
-            font-size: 24px; /* 字體大小 */
+            content: ">"; /* 藍色箭頭 */
         }
     </style>
     <script>
@@ -125,7 +120,7 @@
 </head>
 <body>
     <div class="hover-area"></div>
-    <div class="arrow-icon"></div> <!-- 半圓形向右箭頭 -->
+    <div class="arrow-icon"></div> <!-- 藍色箭頭 -->
 
     <div id="mySidebar" class="sidebar">
         <a href="#">按鈕 1</a>
