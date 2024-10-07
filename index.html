@@ -4,130 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的網站</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden; /* 防止水平滾動條 */
-        }
-        h1 {
-            color: #2e8b57;
-            text-align: center;
-        }
-        p {
-            text-align: center;
-            font-size: 1.2em;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .button {
-            padding: 10px 20px;
-            font-size: 1em;
-            margin-top: 20px;
-            background-color: #2e8b57;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .button:hover {
-            background-color: #256d44;
-        }
-        /* 側邊菜單樣式 */
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: -250px; /* 初始隱藏 */
-            background-color: #fff;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-            transition: 0.3s;
-            padding-top: 20px;
-            z-index: 1; /* 確保在最上層 */
-        }
-        .sidebar a {
-            padding: 15px 25px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #333;
-            display: block;
-            transition: 0.3s;
-        }
-        .sidebar a:hover {
-            background-color: #f0f0f0;
-        }
-        .hover-area {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 50px; /* 縮小觸發區域的寬度 */
-            height: 100%;
-            z-index: 0; /* 調整 z-index 確保不覆蓋按鈕 */
-        }
-        /* 藍色箭頭樣式 */
-        .arrow-icon {
-            position: fixed;
-            left: 10px; /* 調整為距離左側 10px */
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 30px; /* 字體大小 */
-            color: #2e8b57; /* 藍色 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none; /* 防止點擊 */
-        }
-        .arrow-icon::after {
-            content: ">"; /* 藍色箭頭 */
-        }
-    </style>
-    <script>
-        function showMessage() {
-            alert('歡迎來到我的網站！');
-        }
-
-        function toggleSidebar(show) {
-            const sidebar = document.getElementById("mySidebar");
-            sidebar.style.left = show ? "0px" : "-250px"; // 顯示或隱藏
-        }
-
-        function closeSidebar() {
-            toggleSidebar(false); // 關閉側邊菜單
-        }
-
-        window.onload = function() {
-            const hoverArea = document.querySelector('.hover-area');
-            const sidebar = document.getElementById("mySidebar");
-
-            hoverArea.addEventListener('mouseenter', function() {
-                toggleSidebar(true);
-            });
-
-            sidebar.addEventListener('mouseleave', function() {
-                toggleSidebar(false);
-            });
-
-            // 為關閉按鈕添加事件
-            const closeButton = sidebar.querySelector('a:last-child'); // 獲取最後一個按鈕（關閉按鈕）
-            closeButton.addEventListener('click', function(event) {
-                event.preventDefault(); // 防止按鈕的默認行為
-                closeSidebar(); // 關閉側邊菜單
-            });
-        };
-    </script>
+    <link rel="stylesheet" href="styles.css"> <!-- 引入CSS -->
 </head>
 <body>
     <div class="hover-area"></div>
@@ -139,7 +16,7 @@
         <a href="#">按鈕 3</a>
         <a href="#">按鈕 4</a>
         <a href="#">按鈕 5</a>
-        <a href="#">關閉</a> <!-- 關閉按鈕 -->
+        <a href="#" id="closeButton">關閉</a> <!-- 關閉按鈕 -->
     </div>
 
     <div class="container">
@@ -149,5 +26,7 @@
         <br>
         <a href="https://example.com" class="button" target="_blank">前往示範網站</a>
     </div>
+
+    <script src="script.js"></script> <!-- 引入JavaScript -->
 </body>
 </html>
