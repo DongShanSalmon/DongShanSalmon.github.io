@@ -1,41 +1,40 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+const boardElement = document.getElementById('chess-board');
+let selectedSquare = null;
+
+// 初始棋子佈局
+const initialSetup = [
+    'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r', // 黑方
+    'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p',
+    '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '', '', '',
+    'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', // 白方
+    'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R',
+];
+
+function createBoard() {
+    initialSetup.forEach((piece, index) => {
+        const square = document.createElement('div');
+        square.classList.add('square', (Math.floor(index / 8) + index) % 2 === 0 ? 'light' : 'dark');
+        square.dataset.index = index;
+        square.textContent = piece;
+        square.addEventListener('click', () => handleSquareClick(square));
+        boardElement.appendChild(square);
+    });
 }
 
-header {
-    text-align: center;
+function handleSquareClick(square) {
+    if (selectedSquare) {
+        if (selectedSquare !== square) {
+            // 移動棋子
+            square.textContent = selectedSquare.textContent;
+            selectedSquare.textContent = '';
+            selectedSquare = null;
+        }
+    } else {
+        selectedSquare = square;
+    }
 }
 
-.chess-board {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    width: 320px;
-    height: 320px;
-    margin: 20px auto;
-}
-
-.square {
-    width: 40px;
-    height: 40px;
-}
-
-.square.light {
-    background-color: #eee;
-}
-
-.square.dark {
-    background-color: #333;
-}
-
-.instructions {
-    margin: 20px auto;
-    max-width: 600px;
-}
-
-footer {
-    text-align: center;
-    margin-top: 20px;
-}
+document.addEventListener('DOMContentLoaded', createBoard);
