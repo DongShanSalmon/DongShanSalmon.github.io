@@ -3,169 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>猜數字遊戲</title>
+    <title>我的網站</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e0f7fa;
-            text-align: center;
-            padding: 50px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
             margin: 0;
-            overflow: hidden; /* 防止滾動條出現 */
+            padding: 0;
+            overflow-x: hidden; /* 防止水平滾動條 */
         }
         h1 {
-            color: #00695c;
+            color: #2e8b57;
+            text-align: center;
+        }
+        p {
+            text-align: center;
+            font-size: 1.2em;
         }
         .container {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            max-width: 400px;
-            margin: auto;
-            position: relative; /* 使容器成為定位參考 */
-            z-index: 2; /* 確保容器在彩帶上方 */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-        input[type="number"] {
-            padding: 10px;
-            width: 80%;
-            margin: 10px 0;
-            border: 1px solid #00695c;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
+        .button {
             padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            background-color: #2e8b57;
+            color: white;
             border: none;
             border-radius: 5px;
-            background-color: #00695c;
-            color: white;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
-        button:hover {
-            background-color: #004d40;
+        .button:hover {
+            background-color: #256d44;
         }
-        #message {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #d32f2f;
-        }
-        #range {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #00796b;
-        }
-        .confetti {
-            position: fixed; /* 改為固定位置 */
-            top: 0;
-            left: 0;
-            width: 100%;
+        /* 側邊菜單樣式 */
+        .sidebar {
             height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1; /* 確保彩帶在容器下方 */
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px; /* 初始隱藏 */
+            background-color: #fff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+            padding-top: 20px;
+            z-index: 1; /* 確保在最上層 */
         }
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            opacity: 0.8;
-            animation: fall linear infinite;
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+            transition: 0.3s;
         }
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(720deg); }
+        .sidebar a:hover {
+            background-color: #f0f0f0;
+        }
+        .hover-area {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 50px; /* 縮小觸發區域的寬度 */
+            height: 100%;
+            z-index: 0; /* 調整 z-index 確保不覆蓋按鈕 */
+        }
+        /* 藍色箭頭樣式 */
+        .arrow-icon {
+            position: fixed;
+            left: 10px; /* 調整為距離左側 10px */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px; /* 字體大小 */
+            color: #2e8b57; /* 藍色 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* 防止點擊 */
+        }
+        .arrow-icon::after {
+            content: ">"; /* 藍色箭頭 */
         }
     </style>
+    <script>
+        function showMessage() {
+            alert('歡迎來到我的網站！');
+        }
+
+        function toggleSidebar(show) {
+            const sidebar = document.getElementById("mySidebar");
+            sidebar.style.left = show ? "0px" : "-250px"; // 顯示或隱藏
+        }
+
+        function closeSidebar() {
+            toggleSidebar(false); // 關閉側邊菜單
+        }
+
+        window.onload = function() {
+            const hoverArea = document.querySelector('.hover-area');
+            const sidebar = document.getElementById("mySidebar");
+
+            hoverArea.addEventListener('mouseenter', function() {
+                toggleSidebar(true);
+            });
+
+            sidebar.addEventListener('mouseleave', function() {
+                toggleSidebar(false);
+            });
+
+            // 為關閉按鈕添加事件
+            const closeButton = sidebar.querySelector('a:last-child'); // 獲取最後一個按鈕（關閉按鈕）
+            closeButton.addEventListener('click', function(event) {
+                event.preventDefault(); // 防止按鈕的默認行為
+                closeSidebar(); // 關閉側邊菜單
+            });
+        };
+    </script>
 </head>
 <body>
+    <div class="hover-area"></div>
+    <div class="arrow-icon"></div> <!-- 藍色箭頭 -->
 
-<div class="confetti" id="confetti"></div>
-<div class="container">
-    <h1>猜數字遊戲</h1>
-    <p id="range">請猜一個 1 到 100 的數字：</p>
-    <input type="number" id="guess" min="1" max="100" placeholder="輸入你的猜測">
-    <button id="submit">提交</button>
-    <button id="restart" style="display:none;">重新開始</button>
-    <div id="message"></div>
-</div>
+    <div id="mySidebar" class="sidebar">
+        <a href="DavinciCode">達文西密碼</a>
+        <a href="#">按鈕 2</a>
+        <a href="#">按鈕 3</a>
+        <a href="#">按鈕 4</a>
+        <a href="#">按鈕 5</a>
+        <a href="#">關閉</a> <!-- 關閉按鈕 -->
+    </div>
 
-<script>
-    let randomNumber = Math.floor(Math.random() * 100) + 1;
-    let attempts = 0;
-    let minGuess = 1;
-    let maxGuess = 100;
-
-    document.getElementById('submit').addEventListener('click', function() {
-        const userGuess = Number(document.getElementById('guess').value);
-        attempts++;
-
-        if (userGuess < minGuess || userGuess > maxGuess || isNaN(userGuess)) {
-            document.getElementById('message').textContent = `請輸入 ${minGuess} 到 ${maxGuess} 之間的數字！`;
-        } else if (userGuess < randomNumber) {
-            minGuess = userGuess; // 更新最小猜測範圍
-            document.getElementById('message').textContent = `太小了！`;
-        } else if (userGuess > randomNumber) {
-            maxGuess = userGuess; // 更新最大猜測範圍
-            document.getElementById('message').textContent = `太大了！`;
-        } else {
-            document.getElementById('message').textContent = `恭喜你！你猜對了！你總共猜了 ${attempts} 次。`;
-            document.getElementById('restart').style.display = "inline-block";
-            document.getElementById('submit').disabled = true;
-            showConfetti(); // 顯示彩帶特效
-        }
-        
-        // 更新提示範圍
-        document.getElementById('range').textContent = `請猜一個 ${minGuess} 到 ${maxGuess} 的數字：`;
-    });
-
-    document.getElementById('restart').addEventListener('click', function() {
-        randomNumber = Math.floor(Math.random() * 100) + 1;
-        attempts = 0;
-        minGuess = 1;
-        maxGuess = 100;
-        document.getElementById('message').textContent = "";
-        document.getElementById('guess').value = "";
-        document.getElementById('submit').disabled = false;
-        this.style.display = "none";
-        document.getElementById('range').textContent = "請猜一個 1 到 100 的數字：";
-        hideConfetti(); // 隱藏彩帶特效
-    });
-
-    function showConfetti() {
-        const confettiContainer = document.getElementById('confetti');
-        for (let i = 0; i < 200; i++) { // 增加彩帶數量
-            createConfettiPiece(confettiContainer);
-        }
-    }
-
-    function createConfettiPiece(container) {
-        const piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.backgroundColor = getRandomColor();
-        piece.style.left = Math.random() * 100 + '%';
-        piece.style.animationDuration = Math.random() * 2 + 3 + 's';
-        piece.style.animationDelay = Math.random() * 2 + 's';
-        container.appendChild(piece);
-
-        // 移除彩帶特效的 div
-        piece.addEventListener('animationend', function() {
-            piece.remove();
-        });
-    }
-
-    function getRandomColor() {
-        const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function hideConfetti() {
-        const confettiContainer = document.getElementById('confetti');
-        confettiContainer.innerHTML = ''; // 清空彩帶特效
-    }
-</script>
-
+    <div class="container">
+        <h1>歡迎來到我的網站！</h1>
+        <p>這是我使用 GitHub Pages 創建的第一個網站。</p>
+        <a href="#" class="button" onclick="showMessage()">顯示歡迎訊息</a>
+        <br>
+        <a href="https://example.com" class="button" target="_blank">前往示範網站</a>
+    </div>
 </body>
 </html>
