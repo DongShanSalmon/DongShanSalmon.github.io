@@ -1,7 +1,14 @@
 name: Deploy to GitHub Pages
 
 on:
-  workflow_dispatch: # 允許手動觸發工作流
+  workflow_dispatch:  # 允許手動觸發工作流
+    inputs:
+      fileName:  # 檔案名稱輸入
+        description: 'File Name'
+        required: true
+      content:  # 檔案內容輸入
+        description: 'File Content'
+        required: true
   push:
     branches:
       - main
@@ -17,9 +24,11 @@ jobs:
     - name: Upload files to GitHub
       run: |
         echo "Uploading file to Video folder"
+        # 將輸入的檔案名稱和內容保存為環境變數
         echo "${{ github.event.inputs.fileName }}" > fileName.txt
         echo "${{ github.event.inputs.content }}" > content.txt
 
+        # 使用 curl 上傳檔案
         curl -X PUT \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           -H "Content-Type: application/json" \
