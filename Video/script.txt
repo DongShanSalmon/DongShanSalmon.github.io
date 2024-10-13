@@ -1,0 +1,46 @@
+document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // 防止表單的默認提交行為
+
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert('請選擇一個檔案');
+        return;
+    }
+
+    const token = 'YOUR_GITHUB_TOKEN'; // 用你的 GitHub Token 替換此處
+    const repo = 'YOUR_USERNAME/YOUR_REPO'; // 替換為你的 GitHub 使用者名稱和儲存庫名稱
+    const path = `YOUR_FOLDER/${file.name}`; // 替換為你想要儲存的資料夾
+
+    const url = `https://api.github.com/repos/${repo}/contents/${path}`;
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+        const content = btoa(reader.result); // 將檔案內容轉為 base64
+
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: '上傳檔案',
+                    content: content,
+                }),
+            });
+
+            if (response.ok) {
+                document.getElementById('message').textContent = '檔案上傳成功！';
+            } else {
+                const errorData = await response.json();
+                document.getElementById('message').textContent = `上傳失敗：${errorData.message}`;
+            }
+        } catch (error) {
+            document.getElementById('message').textContent = `發生錯誤：${error.message}`;
+        }
+    };
+    reader.readAsBinaryString(file); // 讀取檔案
+});
