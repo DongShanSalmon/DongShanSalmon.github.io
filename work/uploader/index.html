@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传</title>
+</head>
+<body>
+    <h1>上传文件</h1>
+    <form id="upload-form">
+        <input type="file" id="file-input" accept="image/*,video/*" />
+        <button type="submit">上传</button>
+    </form>
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('file-input').files[0];
+            if (file) {
+                const fileType = file.type;
+                const isImage = fileType.startsWith('image/');
+                const isVideo = fileType.startsWith('video/');
+                
+                const uploadPath = isImage ? 'files/pic/' : (isVideo ? 'files/videos/' : '');
+                if (uploadPath) {
+                    const response = await fetch('YOUR_API_ENDPOINT', {
+                        method: 'POST',
+                        body: JSON.stringify({ file: file.name, path: uploadPath }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    const result = await response.json();
+                    alert(result.message);
+                } else {
+                    alert('不支持的文件类型！');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
