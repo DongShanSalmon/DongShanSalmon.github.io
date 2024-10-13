@@ -16,24 +16,24 @@
             e.preventDefault();
             const file = document.getElementById('file-input').files[0];
             if (file) {
-                const fileType = file.type;
-                const isImage = fileType.startsWith('image/');
-                const isVideo = fileType.startsWith('video/');
-                
-                const uploadPath = isImage ? 'files/pic/' : (isVideo ? 'files/videos/' : '');
-                if (uploadPath) {
+                const uploadPath = file.type.startsWith('image/') ? 'files/pic/' + file.name : 'files/videos/' + file.name;
+
+                const reader = new FileReader();
+                reader.onload = async function () {
+                    const base64Data = btoa(reader.result); // 编码为 Base64
                     const response = await fetch('YOUR_API_ENDPOINT', {
                         method: 'POST',
-                        body: JSON.stringify({ file: file.name, path: uploadPath }),
+                        body: JSON.stringify({ file: base64Data, path: uploadPath }),
                         headers: {
                             'Content-Type': 'application/json',
                         },
                     });
                     const result = await response.json();
                     alert(result.message);
-                } else {
-                    alert('不支持的文件类型！');
-                }
+                };
+                reader.readAsBinaryString(file); // 读取文件为二进制字符串
+            } else {
+                alert('请选择一个文件！');
             }
         });
     </script>
