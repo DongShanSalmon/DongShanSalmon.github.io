@@ -1,0 +1,27 @@
+name: Upload File
+
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: 'File to upload'
+        required: true
+      path:
+        description: 'Path for the file'
+        required: true
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Save file
+        run: |
+          echo "${{ github.event.inputs.file }}" > "${{ github.event.inputs.path }}${{ github.event.inputs.file }}"
+          git config --local user.email "you@example.com"
+          git config --local user.name "Your Name"
+          git add "${{ github.event.inputs.path }}${{ github.event.inputs.file }}"
+          git commit -m "Upload file: ${{ github.event.inputs.file }}"
+          git push
