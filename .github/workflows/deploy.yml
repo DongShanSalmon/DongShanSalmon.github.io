@@ -21,17 +21,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set variables
+      id: vars
+      run: |
+        echo "FILE_NAME=${{ github.event.inputs.fileName }}" >> $GITHUB_ENV
+        echo "CONTENT=${{ github.event.inputs.content }}" >> $GITHUB_ENV
+
     - name: Debugging inputs
       run: |
-        FILE_NAME="${{ github.event.inputs.fileName }}"
-        CONTENT="${{ github.event.inputs.content }}"
         echo "File Name: $FILE_NAME"
         echo "Content Length: ${#CONTENT}"
 
     - name: Upload files to GitHub
       run: |
         echo "Uploading file to Video folder"
-        content=$(echo "${{ github.event.inputs.content }}" | base64)
+        content=$(echo "$CONTENT" | base64)
 
         # 檢查檔案名稱是否存在
         if [[ -z "$FILE_NAME" ]]; then
@@ -42,7 +46,7 @@ jobs:
         echo "Encoded Content Length: ${#content}"
 
         curl -X PUT \
-          -H "Authorization: token ${{ secrets.UPLOAD_TOKEN }}" \  # 使用你設定的 GitHub Token
+          -H "Authorization: token ${{ secrets.UPLOAD_TOKEN }}" \
           -H "Content-Type: application/json" \
           -d '{
             "message": "Uploading file to Video folder",
