@@ -3,21 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub OAuth</title>
+    <title>檔案上傳</title>
 </head>
 <body>
-    <h1>GitHub OAuth 流程</h1>
-    <button id="authorizeBtn">授權 GitHub</button>
+    <h1>上傳檔案到 GitHub</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" required>
+        <button type="submit">上傳</button>
+    </form>
+    <div id="message"></div>
 
-    <script>
-        document.getElementById('authorizeBtn').addEventListener('click', () => {
-            const clientId = 'Ov23lievWbS1qOrvgDYV'; // 替換為你的 Client ID
-            const redirectUri = 'https://github.com/DongShanSalmon/DongShanSalmon.github.io/tree/main/Video/callback.html'; // 替換為你的回調 URL
-            const scope = 'repo'; // 需要的權限
-
-            const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
-            window.location.href = authUrl; // 重定向到 GitHub 授權頁面
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
