@@ -13,6 +13,54 @@
     </form>
     <div id="message"></div>
 
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+            event.preventDefault(); // 防止表單的默認提交行為
+
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('請選擇一個檔案');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async () => {
+                const content = btoa(reader.result); // 將檔案內容轉為 base64
+
+                // 觸發 GitHub Actions
+                const url = 'https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/actions/workflows/deploy.yml/dispatches';
+                
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `token YOUR_GITHUB_TOKEN`, // 替換為你的 GitHub Token 名稱
+                            'Accept': 'application/vnd.github.v3+json',
+                        },
+                        body: JSON.stringify({
+                            ref: 'main', // 目標分支
+                            inputs: {
+                                fileName: file.name,
+                                content: content,
+                            },
+                        }),
+                    });
+
+                    if (response.ok) {
+                        document.getElementById('message').textContent = '檔案上傳請求成功！';
+                    } else {
+                        const errorData = await response.json();
+                        document.getElementById('message').textContent = `上傳失敗：${errorData.message}`;
+                    }
+                } catch (error) {
+                    document.getElementById('message').textContent = `發生錯誤：${error.message}`;
+                }
+            };
+
+            reader.readAsBinaryString(file); // 讀取檔案
+        });
+    </script>
 </body>
 </html>
