@@ -19,7 +19,7 @@ jobs:
 
       - name: Upload file using GitHub API
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}  # 使用你定義的 Secret
         run: |
           echo "Uploading file..."
           curl -X PUT -H "Authorization: token $GITHUB_TOKEN" \
