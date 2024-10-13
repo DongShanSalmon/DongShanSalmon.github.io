@@ -1,7 +1,7 @@
 name: Deploy to GitHub Pages
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
     inputs:
       fileName:
         description: 'File Name'
@@ -21,10 +21,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Debugging inputs
+      run: |
+        echo "File Name: ${{ github.event.inputs.fileName }}"
+        echo "Content Length: ${#github.event.inputs.content}"
+
     - name: Upload files to GitHub
       run: |
         echo "Uploading file to Video folder"
         content=$(echo "${{ github.event.inputs.content }}" | base64)
+
+        # 檢查檔案名稱是否存在
+        if [[ -z "${{ github.event.inputs.fileName }}" ]]; then
+          echo "File name is missing!"
+          exit 1
+        fi
+
+        echo "Encoded Content Length: ${#content}"
 
         curl -X PUT \
           -H "Authorization: token ${{ secrets.UPLOAD_TOKEN }}" \  # 使用你設定的 GitHub Token
