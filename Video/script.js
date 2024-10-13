@@ -9,11 +9,12 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
         return;
     }
 
-    const url = 'YOUR_SERVER_URL/upload'; // 替換為你的伺服器上傳 API
-
     const reader = new FileReader();
     reader.onload = async () => {
         const content = btoa(reader.result); // 將檔案內容轉為 base64
+
+        // 假設你有一個伺服器 API 用於觸發 GitHub Actions
+        const url = 'YOUR_SERVER_URL/upload'; // 替換為你的伺服器 API
 
         try {
             const response = await fetch(url, {
@@ -22,7 +23,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    fileName: file.name,
+                    fileName: file.name, // 傳送檔案名稱
                     content: content,
                 }),
             });
@@ -37,5 +38,6 @@ document.getElementById('uploadForm').addEventListener('submit', async (event) =
             document.getElementById('message').textContent = `發生錯誤：${error.message}`;
         }
     };
+
     reader.readAsBinaryString(file); // 讀取檔案
 });
