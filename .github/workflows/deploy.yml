@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:  # 允許手動觸發工作流
+    inputs:
+      fileName:
+        description: 'File Name'
+        required: true
+      content:
+        description: 'File Content'
+        required: true
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Upload files to GitHub
+      run: |
+        echo "Uploading file to Video folder"
+        
+        curl -X PUT \
+          -H "Authorization: token ${{ secrets.upload }}" \  # 使用你設定的 GitHub Token
+          -H "Content-Type: application/json" \
+          -d '{
+            "message": "Uploading file to Video folder",
+            "content": "'$(echo "${{ github.event.inputs.content }}" | base64)'"
+          }' \
+          "https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/contents/Video/${{ github.event.inputs.fileName }}"
