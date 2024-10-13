@@ -23,8 +23,10 @@ jobs:
 
     - name: Debugging inputs
       run: |
-        echo "File Name: ${{ github.event.inputs.fileName }}"
-        echo "Content Length: ${#github.event.inputs.content}"
+        FILE_NAME="${{ github.event.inputs.fileName }}"
+        CONTENT="${{ github.event.inputs.content }}"
+        echo "File Name: $FILE_NAME"
+        echo "Content Length: ${#CONTENT}"
 
     - name: Upload files to GitHub
       run: |
