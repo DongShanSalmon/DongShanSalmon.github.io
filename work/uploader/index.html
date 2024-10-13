@@ -18,9 +18,8 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = async function () {
-                    const base64Data = btoa(String.fromCharCode(...new Uint8Array(reader.result))); // 將二進制數據轉換為 Base64
-
-                    const response = await fetch('https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/actions/workflows/YOUR_WORKFLOW_ID/dispatches', {
+                    const base64Data = btoa(reader.result); // 直接使用 reader.result
+                    const response = await fetch('https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/actions/workflows/update.yml/dispatches', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -36,7 +35,7 @@
                     const result = await response.json();
                     alert(result.message || '上传成功！');
                 };
-                reader.readAsArrayBuffer(file);
+                reader.readAsDataURL(file); // 使用 readAsDataURL 直接讀取為 Base64
             } else {
                 alert('请选择一个文件！');
             }
