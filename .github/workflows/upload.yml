@@ -7,7 +7,7 @@ on:
         description: 'File to upload'
         required: true
       path:
-        description: 'Path for the file'
+        description: 'Path for the file (e.g., "files/pic/" or "files/videos/")'
         required: true
 
 jobs:
@@ -19,6 +19,7 @@ jobs:
 
       - name: Save file
         run: |
+          echo "Uploading file..."
           echo "${{ github.event.inputs.file }}" > "${{ github.event.inputs.path }}${{ github.event.inputs.file }}"
           git config --local user.email "you@example.com"
           git config --local user.name "Your Name"
