@@ -27,16 +27,16 @@
 
             const reader = new FileReader();
             reader.onload = async () => {
-                const content = btoa(reader.result); // 將檔案內容轉為 base64
+                const content = btoa(String.fromCharCode(...new Uint8Array(reader.result))); // 將檔案內容轉為 base64
 
                 // 觸發 GitHub Actions
                 const url = 'https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/actions/workflows/deploy.yml/dispatches';
-                
+
                 try {
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: {
-                            'Authorization': `token YOUR_GITHUB_TOKEN`, // 替換為你的 GitHub Token 名稱
+                            'Authorization': `token YOUR_PERSONAL_ACCESS_TOKEN`, // 在這裡替換為你的 GitHub Token（在測試時使用）
                             'Accept': 'application/vnd.github.v3+json',
                         },
                         body: JSON.stringify({
@@ -59,7 +59,7 @@
                 }
             };
 
-            reader.readAsBinaryString(file); // 讀取檔案
+            reader.readAsArrayBuffer(file); // 使用 readAsArrayBuffer 來讀取檔案
         });
     </script>
 </body>
