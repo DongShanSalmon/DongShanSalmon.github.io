@@ -34,7 +34,7 @@ jobs:
         content=$(echo "${{ github.event.inputs.content }}" | base64)
 
         # 檢查檔案名稱是否存在
-        if [[ -z "${{ github.event.inputs.fileName }}" ]]; then
+        if [[ -z "$FILE_NAME" ]]; then
           echo "File name is missing!"
           exit 1
         fi
@@ -48,4 +48,4 @@ jobs:
             "message": "Uploading file to Video folder",
             "content": "'"$content"'"
           }' \
-          "https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/contents/Video/${{ github.event.inputs.fileName }}"
+          "https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/contents/Video/$FILE_NAME"
