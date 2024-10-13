@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       file:
-        description: 'File to upload'
+        description: 'Base64-encoded file content'
         required: true
       path:
-        description: 'Path for the file (e.g., "files/pic/" or "files/videos/")'
+        description: 'Path for the file (e.g., "files/pic/YOUR_IMAGE.jpg")'
         required: true
 
 jobs:
@@ -17,12 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Save file
+      - name: Upload file using GitHub API
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Uploading file..."
-          echo "${{ github.event.inputs.file }}" > "${{ github.event.inputs.path }}${{ github.event.inputs.file }}"
-          git config --local user.email "you@example.com"
-          git config --local user.name "Your Name"
-          git add "${{ github.event.inputs.path }}${{ github.event.inputs.file }}"
-          git commit -m "Upload file: ${{ github.event.inputs.file }}"
-          git push
+          curl -X PUT -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d '{"message": "Upload file", "content": "${{ github.event.inputs.file }}"}' \
+          "https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/contents/${{ github.event.inputs.path }}"
