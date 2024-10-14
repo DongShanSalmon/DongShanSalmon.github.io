@@ -1,46 +1,55 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>代码显示器</title>
+    <title>Code Display from .txt Files</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
         .codeblock {
+            background-color: #f0f0f0;
             border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #f9f9f9;
-            white-space: pre-wrap;
-            overflow-x: auto;
+            padding: 15px;
+            margin-bottom: 20px;
+            white-space: pre-wrap; /* Ensure the content keeps formatting */
+        }
+        .loading {
+            color: #888;
         }
     </style>
 </head>
 <body>
-    <h1>代码显示器</h1>
-    <div id="code-container"></div>
+
+    <h1>Code Display from Sequential Text Files</h1>
+
+    <!-- Code blocks will be populated here -->
+    <div id="codeblock1" class="codeblock loading">Loading 1.txt...</div>
+    <div id="codeblock2" class="codeblock loading">Loading 2.txt...</div>
+    <div id="codeblock3" class="codeblock loading">Loading 3.txt...</div>
 
     <script>
-        async function loadCodeBlocks() {
-            const container = document.getElementById('code-container');
-            for (let i = 1; i <= 5; i++) { // 假设有5个txt文件
-                const response = await fetch(`${i}.txt`);
-                if (response.ok) {
-                    const text = await response.text();
-                    const codeBlock = document.createElement('div');
-                    codeBlock.className = 'codeblock';
-                    codeBlock.textContent = text;
-                    container.appendChild(codeBlock);
-                } else {
-                    console.error(`无法加载文件 ${i}.txt`);
-                }
-            }
+        // Function to load a .txt file and display its content in the designated block
+        function loadTextFile(fileName, elementId) {
+            fetch(fileName)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(elementId).textContent = data;
+                    document.getElementById(elementId).classList.remove("loading");
+                })
+                .catch(error => {
+                    document.getElementById(elementId).textContent = "Error loading " + fileName;
+                    console.error('Error:', error);
+                });
         }
 
-        window.onload = loadCodeBlocks;
+        // Load text files into their respective code blocks
+        loadTextFile('1.txt', 'codeblock1');
+        loadTextFile('2.txt', 'codeblock2');
+        loadTextFile('3.txt', 'codeblock3');
     </script>
+
 </body>
 </html>
