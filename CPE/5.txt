@@ -1,8 +1,11 @@
-这是第五个代码块的内容。
-例如，C++ 示例：
-#include <iostream>
-using namespace std;
-int main() {
-    cout << "Hello, World!" << endl;
-    return 0;
+# Title 5
+# Code
+class Person {
+    constructor(name) {
+        this.name = name;
+    }
+
+    greet() {
+        console.log(`Hello, my name is ${this.name}`);
+    }
 }
