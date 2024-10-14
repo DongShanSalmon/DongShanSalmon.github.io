@@ -3,7 +3,7 @@ async function loadFiles() {
     let index = 1;
 
     while (true) {
-        const fileName = `${index}.txt`;
+        const fileName = `file/${index}.txt`;
         try {
             const response = await fetch(fileName);
             if (!response.ok) throw new Error('File not found');
