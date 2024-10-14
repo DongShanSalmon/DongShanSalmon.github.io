@@ -1,7 +1,7 @@
 const MAX_TXT_FILES = 10; // 假設最多有10個文件
 const codeDisplay = document.getElementById('codeDisplay');
 
-document.getElementById('loadFiles').addEventListener('click', loadFiles);
+window.onload = loadFiles; // 當窗口加載時自動加載文件
 
 async function loadFiles() {
     codeDisplay.innerHTML = ''; // 清空之前的內容
