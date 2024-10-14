@@ -1,3 +1,11 @@
-这是第四个代码块的内容。
-例如，Java 示例：
-System.out.println("Hello, World!");
+# Title 4
+# Code
+class Person {
+    constructor(name) {
+        this.name = name;
+    }
+
+    greet() {
+        console.log(`Hello, my name is ${this.name}`);
+    }
+}
