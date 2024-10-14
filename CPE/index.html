@@ -4,111 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Display from .txt Files</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .highlight-container {
-            margin-bottom: 20px;
-        }
-        .table-container {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .gutter {
-            background-color: #f7f7f7;
-            padding: 10px;
-            text-align: right;
-            vertical-align: top;
-            width: 30px;
-            color: #999;
-        }
-        .code {
-            background-color: #f0f0f0;
-            padding: 10px;
-            vertical-align: top;
-            white-space: pre-wrap; /* Ensure the content keeps formatting */
-        }
-        .line {
-            display: block;
-        }
-        .copy-btn {
-            text-align: right;
-            margin-top: 5px;
-        }
-        .copy-btn i {
-            cursor: pointer;
-            color: #888;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <h1>Code Display from Sequential Text Files</h1>
 
-    <!-- Code blocks will be populated here -->
-    <div id="codeblock1" class="highlight-container">Loading 1.txt...</div>
-    <div id="codeblock2" class="highlight-container">Loading 2.txt...</div>
-    <div id="codeblock3" class="highlight-container">Loading 3.txt...</div>
+    <!-- Code blocks will be dynamically populated here -->
+    <div id="codeblocks-container"></div>
 
-    <script>
-        // Function to fetch a .txt file and display it in a code block with line numbers
-        function loadTextFile(fileName, elementId) {
-            fetch(fileName)
-                .then(response => response.text())
-                .then(data => {
-                    const lines = data.split('\n');
-                    let lineNumbers = '';
-                    let codeContent = '';
-
-                    lines.forEach((line, index) => {
-                        lineNumbers += `<span class="line">${index + 1}</span><br>`;
-                        codeContent += `<span class="line">${line}</span><br>`;
-                    });
-
-                    const codeBlockHTML = `
-                        <figure class="highlight c++">
-                            <div class="table-container">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td class="gutter">
-                                                <pre>${lineNumbers}</pre>
-                                            </td>
-                                            <td class="code">
-                                                <pre>${codeContent}</pre>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </figure>
-                        <div class="copy-btn">
-                            <i class="fa fa-clipboard fa-fw" onclick="copyCode('${elementId}')"></i>
-                        </div>
-                    `;
-                    document.getElementById(elementId).innerHTML = codeBlockHTML;
-                })
-                .catch(error => {
-                    document.getElementById(elementId).textContent = "Error loading " + fileName;
-                    console.error('Error:', error);
-                });
-        }
-
-        // Function to copy code content
-        function copyCode(elementId) {
-            const codeText = document.querySelector(`#${elementId} .code pre`).textContent;
-            navigator.clipboard.writeText(codeText).then(() => {
-                alert("Code copied to clipboard!");
-            });
-        }
-
-        // Load text files into their respective code blocks
-        loadTextFile('1.txt', 'codeblock1');
-        loadTextFile('2.txt', 'codeblock2');
-        loadTextFile('3.txt', 'codeblock3');
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
