@@ -11,6 +11,7 @@ async function loadFiles() {
             displayFileContent(text, container);
             index++;
         } catch (error) {
+            console.log(`停止加載文件：${fileName}`); // 可選：幫助排查
             break; // 停止加載當檔案不存在
         }
     }
@@ -32,30 +33,32 @@ function displayFileContent(text, container) {
         }
     });
 
-    const codeBlock = document.createElement('div');
-    codeBlock.classList.add('code-block');
+    if (title && code) {
+        const codeBlock = document.createElement('div');
+        codeBlock.classList.add('code-block');
 
-    const titleElement = document.createElement('h2');
-    titleElement.textContent = title;
-    codeBlock.appendChild(titleElement);
+        const titleElement = document.createElement('h2');
+        titleElement.textContent = title;
+        codeBlock.appendChild(titleElement);
 
-    const codeElement = document.createElement('pre');
-    codeElement.classList.add('code');
-    code.split('\n').forEach(line => {
-        const lineElement = document.createElement('div');
-        lineElement.classList.add('line');
-        lineElement.textContent = line;
-        codeElement.appendChild(lineElement);
-    });
-    codeBlock.appendChild(codeElement);
+        const codeElement = document.createElement('pre');
+        codeElement.classList.add('code');
+        code.split('\n').forEach(line => {
+            const lineElement = document.createElement('div');
+            lineElement.classList.add('line');
+            lineElement.textContent = line;
+            codeElement.appendChild(lineElement);
+        });
+        codeBlock.appendChild(codeElement);
 
-    const copyButton = document.createElement('button');
-    copyButton.classList.add('copy-button');
-    copyButton.textContent = '複製';
-    copyButton.onclick = () => copyToClipboard(code);
-    codeBlock.appendChild(copyButton);
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = '複製';
+        copyButton.onclick = () => copyToClipboard(code);
+        codeBlock.appendChild(copyButton);
 
-    container.appendChild(codeBlock);
+        container.appendChild(codeBlock);
+    }
 }
 
 function copyToClipboard(text) {
