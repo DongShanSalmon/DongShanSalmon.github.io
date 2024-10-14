@@ -21,10 +21,11 @@
 
             reader.onloadend = async () => {
                 const base64data = reader.result.split(',')[1];
-                const response = await fetch(`https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/contents/file/${file.name}`, {
+                const encodedFileName = encodeURIComponent(file.name); // 編碼檔案名稱
+                const response = await fetch(`https://api.github.com/repos/DongShanSalmon/DongShanSalmon.github.io/contents/file/${encodedFileName}`, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': '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',
+                        'Authorization': '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', // 使用 'token ' 前綴
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
