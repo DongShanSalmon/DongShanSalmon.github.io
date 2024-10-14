@@ -1,3 +1,5 @@
-这是第二个代码块的内容。
-例如，Python 示例：
-print("Hello, World!")
+# Title 2
+# Code
+function add(a, b) {
+    return a + b;
+}
