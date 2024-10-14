@@ -1,54 +1,65 @@
-function loadTextFile(fileName, elementId) {
-    fetch(fileName)
-        .then(response => {
-            if (!response.ok) throw new Error('File not found');
-            return response.text();
-        })
-        .then(data => {
-            const lines = data.split('\n');
-            let lineNumbers = '';
-            let codeContent = '';
+const MAX_TXT_FILES = 10; // 假設最多有10個文件
+const codeDisplay = document.getElementById('codeDisplay');
 
-            // 檢查第一行是否為空
-            let firstLineProcessed = false;
+document.getElementById('loadFiles').addEventListener('click', loadFiles);
 
-            lines.forEach((line, index) => {
-                if (index === 0 && line.trim() === '') {
-                    // 第一行是空行，直接跳過
-                    return;
-                }
+async function loadFiles() {
+    codeDisplay.innerHTML = ''; // 清空之前的內容
 
-                // 正常處理其他行
-                lineNumbers += `<span class="line">${index + 1}</span><br>`;
-                codeContent += `<span class="line">${line}</span><br>`;
-                firstLineProcessed = true;
-            });
+    for (let i = 1; i <= MAX_TXT_FILES; i++) {
+        const filePath = `files/${i}.txt`;
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) throw new Error('文件未找到');
+            const content = await response.text();
+            displayContent(content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
 
-            const codeBlockHTML = 
-                `<figure class="highlight c++">
-                    <div class="table-container">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="gutter">
-                                        <pre>${lineNumbers}</pre>
-                                    </td>
-                                    <td class="code">
-                                        <pre>${codeContent}</pre>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </figure>
-                <div class="copy-btn">
-                    <i class="fa fa-clipboard fa-fw" onclick="copyCode('${elementId}')"></i>
-                </div>`;
-                
-            document.getElementById(elementId).innerHTML = codeBlockHTML;
-        })
-        .catch(error => {
-            document.getElementById(elementId).textContent = `Error loading ${fileName}`;
-            console.error('Error:', error);
-        });
+function displayContent(content) {
+    const lines = content.split('\n');
+    let title = '';
+    let codeLines = [];
+    
+    lines.forEach((line, index) => {
+        if (line.startsWith('# Title')) {
+            title = line.replace('# Title', '').trim();
+        } else if (line.startsWith('# Code')) {
+            // 開始收集代碼行
+            codeLines = lines.slice(index + 1); // 收集後續行
+            return;
+        }
+    });
+
+    const codeBlock = document.createElement('div');
+    codeBlock.className = 'code-block';
+
+    if (title) {
+        const titleElement = document.createElement('h2');
+        titleElement.innerText = title;
+        codeBlock.appendChild(titleElement);
+    }
+
+    const codeWithLineNumbers = codeLines.map((line, idx) => `<span class="line-number">${idx + 1}</span>${line}`).join('<br>');
+
+    codeBlock.innerHTML += codeWithLineNumbers;
+
+    const copyButton = document.createElement('button');
+    copyButton.className = 'copy-button';
+    copyButton.innerText = '複製代碼';
+    copyButton.onclick = () => copyToClipboard(codeLines.join('\n'));
+    codeBlock.appendChild(copyButton);
+
+    codeDisplay.appendChild(codeBlock);
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('代碼已複製到剪貼板');
+    }).catch(err => {
+        console.error('複製失敗:', err);
+    });
 }
