@@ -1,65 +1,67 @@
-const MAX_TXT_FILES = 10; // 假設最多有10個文件
-const codeDisplay = document.getElementById('codeDisplay');
-
-window.onload = loadFiles; // 當窗口加載時自動加載文件
-
 async function loadFiles() {
-    codeDisplay.innerHTML = ''; // 清空之前的內容
+    const container = document.getElementById('container');
+    let index = 1;
 
-    for (let i = 1; i <= MAX_TXT_FILES; i++) {
-        const filePath = `files/${i}.txt`;
+    while (true) {
+        const fileName = `${index}.txt`;
         try {
-            const response = await fetch(filePath);
-            if (!response.ok) throw new Error('文件未找到');
-            const content = await response.text();
-            displayContent(content);
+            const response = await fetch(fileName);
+            if (!response.ok) throw new Error('File not found');
+            const text = await response.text();
+            displayFileContent(text, container);
+            index++;
         } catch (error) {
-            console.error(error);
+            break; // 停止加載當檔案不存在
         }
     }
 }
 
-function displayContent(content) {
-    const lines = content.split('\n');
+function displayFileContent(text, container) {
+    const lines = text.split('\n');
     let title = '';
-    let codeLines = [];
-    
-    lines.forEach((line, index) => {
+    let code = '';
+    let isCodeSection = false;
+
+    lines.forEach(line => {
         if (line.startsWith('# Title')) {
-            title = line.replace('# Title', '').trim();
+            title = line.replace('# Title ', '').trim();
         } else if (line.startsWith('# Code')) {
-            // 開始收集代碼行
-            codeLines = lines.slice(index + 1); // 收集後續行
-            return;
+            isCodeSection = true;
+        } else if (isCodeSection) {
+            code += line + '\n';
         }
     });
 
     const codeBlock = document.createElement('div');
-    codeBlock.className = 'code-block';
+    codeBlock.classList.add('code-block');
 
-    if (title) {
-        const titleElement = document.createElement('h2');
-        titleElement.innerText = title;
-        codeBlock.appendChild(titleElement);
-    }
+    const titleElement = document.createElement('h2');
+    titleElement.textContent = title;
+    codeBlock.appendChild(titleElement);
 
-    const codeWithLineNumbers = codeLines.map((line, idx) => `<span class="line-number">${idx + 1}</span>${line}`).join('<br>');
-
-    codeBlock.innerHTML += codeWithLineNumbers;
+    const codeElement = document.createElement('pre');
+    codeElement.classList.add('code');
+    code.split('\n').forEach(line => {
+        const lineElement = document.createElement('div');
+        lineElement.classList.add('line');
+        lineElement.textContent = line;
+        codeElement.appendChild(lineElement);
+    });
+    codeBlock.appendChild(codeElement);
 
     const copyButton = document.createElement('button');
-    copyButton.className = 'copy-button';
-    copyButton.innerText = '複製代碼';
-    copyButton.onclick = () => copyToClipboard(codeLines.join('\n'));
+    copyButton.classList.add('copy-button');
+    copyButton.textContent = '複製';
+    copyButton.onclick = () => copyToClipboard(code);
     codeBlock.appendChild(copyButton);
 
-    codeDisplay.appendChild(codeBlock);
+    container.appendChild(codeBlock);
 }
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-        alert('代碼已複製到剪貼板');
-    }).catch(err => {
-        console.error('複製失敗:', err);
+        alert('代碼已複製到剪貼板！');
     });
 }
+
+document.addEventListener('DOMContentLoaded', loadFiles);
