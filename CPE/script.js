@@ -11,7 +11,7 @@ async function loadFiles() {
             displayFileContent(text, container);
             index++;
         } catch (error) {
-            console.log(`停止加載文件：${fileName}`); // 可選：幫助排查
+            console.log(`停止加載文件：${fileName}`); // 幫助排查
             break; // 停止加載當檔案不存在
         }
     }
