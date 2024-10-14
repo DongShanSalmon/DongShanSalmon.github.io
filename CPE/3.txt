@@ -1,3 +1,5 @@
-这是第三个代码块的内容。
-例如，JavaScript 示例：
-console.log("Hello, World!");
+# Title 3
+# Code
+const multiply = (x, y) => {
+    return x * y;
+};
