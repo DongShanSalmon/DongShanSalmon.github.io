@@ -1,17 +1,3 @@
-// Maximum number of .txt files to check for
-const MAX_TXT_FILES = 10; // Adjust this number to the expected max number of .txt files
-const container = document.getElementById('codeblocks-container');
-
-// Function to dynamically create codeblocks
-function createCodeBlock(elementId) {
-    const codeBlockDiv = document.createElement('div');
-    codeBlockDiv.id = elementId;
-    codeBlockDiv.className = 'highlight-container';
-    codeBlockDiv.textContent = `Loading ${elementId}.txt...`;
-    container.appendChild(codeBlockDiv);
-}
-
-// Function to fetch a .txt file and display it in a code block with line numbers
 function loadTextFile(fileName, elementId) {
     fetch(fileName)
         .then(response => {
@@ -23,13 +9,23 @@ function loadTextFile(fileName, elementId) {
             let lineNumbers = '';
             let codeContent = '';
 
+            // 檢查第一行是否為空
+            let firstLineProcessed = false;
+
             lines.forEach((line, index) => {
+                if (index === 0 && line.trim() === '') {
+                    // 第一行是空行，直接跳過
+                    return;
+                }
+
+                // 正常處理其他行
                 lineNumbers += `<span class="line">${index + 1}</span><br>`;
                 codeContent += `<span class="line">${line}</span><br>`;
+                firstLineProcessed = true;
             });
 
-            const codeBlockHTML = `
-                <figure class="highlight c++">
+            const codeBlockHTML = 
+                `<figure class="highlight c++">
                     <div class="table-container">
                         <table>
                             <tbody>
@@ -47,8 +43,8 @@ function loadTextFile(fileName, elementId) {
                 </figure>
                 <div class="copy-btn">
                     <i class="fa fa-clipboard fa-fw" onclick="copyCode('${elementId}')"></i>
-                </div>
-            `;
+                </div>`;
+                
             document.getElementById(elementId).innerHTML = codeBlockHTML;
         })
         .catch(error => {
@@ -56,28 +52,3 @@ function loadTextFile(fileName, elementId) {
             console.error('Error:', error);
         });
 }
-
-// Function to copy code content
-function copyCode(elementId) {
-    const codeText = document.querySelector(`#${elementId} .code pre`).textContent;
-    navigator.clipboard.writeText(codeText).then(() => {
-        alert("Code copied to clipboard!");
-    });
-}
-
-// Function to check and load .txt files sequentially from 1.txt to MAX_TXT_FILES
-function loadAllTextFiles() {
-    for (let i = 1; i <= MAX_TXT_FILES; i++) {
-        const fileName = `${i}.txt`;
-        const elementId = `codeblock${i}`;
-
-        // Create a codeblock for each file
-        createCodeBlock(elementId);
-
-        // Attempt to load the file
-        loadTextFile(fileName, elementId);
-    }
-}
-
-// Start loading all .txt files
-loadAllTextFiles();
