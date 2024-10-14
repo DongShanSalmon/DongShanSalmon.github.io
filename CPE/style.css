@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.highlight-container {
+    margin-bottom: 20px;
+}
+
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.gutter {
+    background-color: #f7f7f7;
+    padding: 10px;
+    text-align: right;
+    vertical-align: top;
+    width: 30px;
+    color: #999;
+}
+
+.code {
+    background-color: #f0f0f0;
+    padding: 10px;
+    vertical-align: top;
+    white-space: pre-wrap; /* Ensure the content keeps formatting */
+}
+
+.line {
+    display: block;
+}
+
+.copy-btn {
+    text-align: right;
+    margin-top: 5px;
+}
+
+.copy-btn i {
+    cursor: pointer;
+    color: #888;
+}
