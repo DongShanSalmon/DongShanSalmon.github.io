@@ -1,9 +1,0 @@
-# Title 第一個範例test
-# Content
-這是範例文件的內文部分。可以包含多行文字。
-您可以在這裡添加更多的內容。
-
-# Code
-function example() {
-    console.log("Hello, World!");
-}
