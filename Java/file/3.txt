@@ -1,0 +1,5 @@
+# Title 3
+# Code
+const multiply = (x, y) => {
+    return x * y;
+};
