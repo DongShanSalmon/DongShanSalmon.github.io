@@ -1,9 +1,13 @@
-# Title 第一個範例test
+# Title JAVA語法
 # Content
-這是範例文件的內文部分。可以包含多行文字。
-您可以在這裡添加更多的內容。
+區分大小寫
+一定要有一個主類( public class <filename> )其中filename需與檔案名稱一致，例如檔名test.java主類名就要是test
+一定要有入口( public static void main(String[] args){} )
+用大括號表達程式碼的開始到結束( {} )
 
 # Code
-function example() {
-    console.log("Hello, World!");
+public class Main { //public讓類能夠被別的檔案使用
+  public static void main(String[] args) { //入口，一定要public不然虛擬機( JVM )沒辦法找到入口，就不會執行。一定要static不然虛擬機沒辦法運作( JVM不會實例化 )
+    System.out.println("Hello World"); //System是JAVA內建的類別，out是System中的成員提供流
+  }
 }
